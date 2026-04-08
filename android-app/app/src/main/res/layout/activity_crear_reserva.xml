@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Top Nav Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:background="@color/white"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/btnBackToReservas"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Volver"
+            android:tint="@color/text_dark" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nueva Reserva"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_dark"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Selecciona tu Mascota -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selecciona tu Mascota"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <Spinner
+                android:id="@+id/spinnerMascota"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Fecha de Ingreso -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha de Ingreso"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/etFechaIngreso"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="DD/MM/AAAA"
+                android:inputType="date"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/text_dark"
+                android:textColorHint="@color/text_light"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Fecha de Salida -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha de Salida"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/etFechaSalida"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="DD/MM/AAAA"
+                android:inputType="date"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/text_dark"
+                android:textColorHint="@color/text_light"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Servicios Adicionales -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Servicios Adicionales"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="10dp" />
+
+            <CheckBox
+                android:id="@+id/cbBano"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Baño"
+                android:textSize="14sp"
+                android:textColor="@color/text_dark"
+                android:buttonTint="@color/primary"
+                android:layout_marginBottom="8dp" />
+
+            <CheckBox
+                android:id="@+id/cbPaseo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Paseo"
+                android:textSize="14sp"
+                android:textColor="@color/text_dark"
+                android:buttonTint="@color/primary"
+                android:layout_marginBottom="8dp" />
+
+            <CheckBox
+                android:id="@+id/cbAlimentacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alimentación especial"
+                android:textSize="14sp"
+                android:textColor="@color/text_dark"
+                android:buttonTint="@color/primary"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Verificar Disponibilidad Button -->
+            <Button
+                android:id="@+id/btnVerificarDisponibilidad"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Verificar Disponibilidad"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_marginTop="20dp" />
+
+            <!-- Confirmar Reserva Button -->
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Confirmar Reserva"
+                android:backgroundTint="@color/accent"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
