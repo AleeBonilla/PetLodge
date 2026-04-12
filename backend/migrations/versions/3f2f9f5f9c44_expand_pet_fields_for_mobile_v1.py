@@ -43,8 +43,8 @@ def upgrade():
             """
             UPDATE pets
             SET has_medical_conditions = CASE
-                WHEN medical_notes IS NOT NULL AND TRIM(medical_notes) <> '' THEN 1
-                ELSE 0
+                WHEN medical_notes IS NOT NULL AND TRIM(medical_notes) <> '' THEN TRUE
+                ELSE FALSE
             END,
             medical_conditions_notes = medical_notes
             """
