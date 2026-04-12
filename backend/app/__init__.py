@@ -54,12 +54,14 @@ def create_app(config_name="development"):
     from app.routes.pets import blp as pets_blp
     from app.routes.reservations import blp as reservations_blp
     from app.routes.notifications import blp as notifications_blp
+    from app.routes.catalog import blp as catalog_blp
 
     api.register_blueprint(auth_blp)
     api.register_blueprint(users_blp)
     api.register_blueprint(pets_blp)
     api.register_blueprint(reservations_blp)
     api.register_blueprint(notifications_blp)
+    api.register_blueprint(catalog_blp)
 
     # Register CLI commands
     register_cli_commands(app)

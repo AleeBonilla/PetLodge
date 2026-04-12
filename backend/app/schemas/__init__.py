@@ -13,6 +13,7 @@ from app.schemas.notification_schema import (
     NotificationTemplateCreateSchema,
     NotificationTemplateUpdateSchema,
 )
+from app.schemas.catalog_schema import RoomSchema, ServiceSchema
 
 __all__ = [
     "SuccessResponseSchema",
@@ -31,4 +32,6 @@ __all__ = [
     "NotificationTemplateSchema",
     "NotificationTemplateCreateSchema",
     "NotificationTemplateUpdateSchema",
+    "RoomSchema",
+    "ServiceSchema",
 ]
