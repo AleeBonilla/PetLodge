@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:background="@color/bg_color">
 
-    <!-- Top Nav Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -36,7 +35,6 @@
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,125 +46,33 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Card: Max -->
-            <LinearLayout
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvEmptyState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@color/white"
-                android:padding="16dp"
                 android:layout_marginBottom="12dp"
-                android:elevation="2dp">
+                android:padding="24dp"
+                android:text="No tienes mascotas registradas todavía."
+                android:textAlignment="center"
+                android:textColor="@color/text_light"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
-                <!-- Icon -->
-                <FrameLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@color/bg_color"
-                    android:layout_marginEnd="12dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_pet_placeholder"
-                        android:tint="@color/primary"
-                        android:contentDescription="Ícono mascota" />
-                </FrameLayout>
-
-                <!-- Info -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_dark" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_light" />
-                </LinearLayout>
-
-                <!-- Ver Detalles -->
-                <Button
-                    android:id="@+id/btnDetalleMascota1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ver Detalles"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textColor="@color/primary"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <!-- Card: Luna -->
             <LinearLayout
+                android:id="@+id/petsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@color/white"
-                android:padding="16dp"
-                android:layout_marginBottom="12dp"
-                android:elevation="2dp">
+                android:orientation="vertical" />
 
-                <!-- Icon -->
-                <FrameLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@color/bg_color"
-                    android:layout_marginEnd="12dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_pet_placeholder"
-                        android:tint="@color/accent"
-                        android:contentDescription="Ícono mascota" />
-                </FrameLayout>
-
-                <!-- Info -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/text_dark" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_light" />
-                </LinearLayout>
-
-                <!-- Ver Detalles -->
-                <Button
-                    android:id="@+id/btnDetalleMascota2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ver Detalles"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:textColor="@color/primary"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <!-- Add Pet Button -->
             <Button
                 android:id="@+id/btnRegistrarMascota"
                 android:layout_width="match_parent"

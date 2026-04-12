@@ -1,12 +1,13 @@
-import pytest
 from datetime import date, timedelta
+
+import pytest
 
 from app import create_app
 from app.extensions import db as _db
-from app.models.user import User
 from app.models.pet import Pet
 from app.models.room import Room
 from app.models.service import Service
+from app.models.user import User
 
 
 @pytest.fixture

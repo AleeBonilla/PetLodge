@@ -1,48 +1,71 @@
 from app.extensions import ma
-from marshmallow import fields, validate
+from marshmallow import ValidationError, fields, validate, validates_schema
 
 SPECIES_CHOICES = ["dog", "cat", "bird", "rabbit", "hamster", "reptile", "other"]
+SEX_CHOICES = ["male", "female"]
+SIZE_CHOICES = ["small", "medium", "large"]
 
 
-class PetSchema(ma.Schema):
-    id = fields.Integer(dump_only=True)
-    owner_id = fields.Integer(dump_only=True)
-    name = fields.String(required=True)
-    species = fields.String(required=True)
-    breed = fields.String()
-    age_years = fields.Float()
-    weight_kg = fields.Float()
-    photo_url = fields.String()
-    medical_notes = fields.String()
-    care_notes = fields.String()
-    is_deleted = fields.Boolean(dump_only=True)
-    created_at = fields.DateTime(dump_only=True)
-    updated_at = fields.DateTime(dump_only=True)
-
-
-class PetCreateSchema(ma.Schema):
+class _PetSchemaBase(ma.Schema):
     name = fields.String(required=True)
     species = fields.String(
         required=True,
         validate=validate.OneOf(SPECIES_CHOICES),
     )
-    breed = fields.String(load_default=None)
-    age_years = fields.Float(load_default=None)
-    weight_kg = fields.Float(load_default=None)
-    photo_url = fields.String(load_default=None)
-    medical_notes = fields.String(load_default=None)
-    care_notes = fields.String(load_default=None)
+    breed = fields.String(allow_none=True)
+    age_years = fields.Integer(
+        allow_none=True,
+        validate=validate.Range(min=0),
+    )
+    sex = fields.String(
+        allow_none=True,
+        validate=validate.OneOf(SEX_CHOICES),
+    )
+    size = fields.String(
+        allow_none=True,
+        validate=validate.OneOf(SIZE_CHOICES),
+    )
+    photo_url = fields.String(allow_none=True)
+    vaccinated = fields.Boolean(allow_none=True)
+    vaccination_notes = fields.String(allow_none=True)
+    has_medical_conditions = fields.Boolean(allow_none=True)
+    medical_conditions_notes = fields.String(allow_none=True)
+    veterinarian_name = fields.String(allow_none=True)
+    veterinarian_phone = fields.String(allow_none=True)
+    care_notes = fields.String(allow_none=True)
+
+    @validates_schema
+    def validate_conditional_notes(self, data, **kwargs):
+        if data.get("vaccinated") is True and not data.get("vaccination_notes"):
+            raise ValidationError(
+                "vaccination_notes is required when vaccinated is true.",
+                field_name="vaccination_notes",
+            )
+
+        if data.get("has_medical_conditions") is True and not data.get(
+            "medical_conditions_notes"
+        ):
+            raise ValidationError(
+                "medical_conditions_notes is required when has_medical_conditions is true.",
+                field_name="medical_conditions_notes",
+            )
 
 
-class PetUpdateSchema(ma.Schema):
-    name = fields.String(load_default=None)
+class PetSchema(_PetSchemaBase):
+    id = fields.Integer(dump_only=True)
+    owner_id = fields.Integer(dump_only=True)
+    is_deleted = fields.Boolean(dump_only=True)
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
+
+
+class PetCreateSchema(_PetSchemaBase):
+    pass
+
+
+class PetUpdateSchema(_PetSchemaBase):
+    name = fields.String(allow_none=True)
     species = fields.String(
-        load_default=None,
+        allow_none=True,
         validate=validate.OneOf(SPECIES_CHOICES),
     )
-    breed = fields.String(load_default=None)
-    age_years = fields.Float(load_default=None)
-    weight_kg = fields.Float(load_default=None)
-    photo_url = fields.String(load_default=None)
-    medical_notes = fields.String(load_default=None)
-    care_notes = fields.String(load_default=None)

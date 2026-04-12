@@ -32,8 +32,7 @@ class PetService:
             return None, "Mascota no encontrada.", "PET_NOT_FOUND"
 
         for key, value in data.items():
-            if value is not None:
-                setattr(pet, key, value)
+            setattr(pet, key, value)
 
         db.session.commit()
         return pet, None, None

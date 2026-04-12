@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <!-- Top Nav Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -36,7 +35,6 @@
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +46,14 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Pet Avatar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
+
             <FrameLayout
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -66,7 +71,6 @@
                     android:contentDescription="Foto de mascota" />
             </FrameLayout>
 
-            <!-- Sección: Información Básica -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +81,6 @@
                 android:paddingBottom="8dp"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Nombre -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +105,6 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Tipo -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tipo de Mascota:"
+                    android:text="Tipo:"
                     android:textSize="14sp"
                     android:textColor="@color/text_light" />
 
@@ -126,7 +128,6 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Raza -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +151,6 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Edad -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -174,7 +174,6 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Sexo -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,7 +197,6 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Tamaño -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -222,25 +220,22 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Divider -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/border_color"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Sección: Vacunas -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vacunas"
+                android:text="Salud"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
                 android:paddingBottom="8dp"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Estado Vacunación -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -251,7 +246,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Estado de vacunación:"
+                    android:text="Vacunación:"
                     android:textSize="14sp"
                     android:textColor="@color/text_light" />
 
@@ -264,18 +259,17 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Detalles Vacunas -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Detalles:"
+                    android:text="Detalle vacunas:"
                     android:textSize="14sp"
                     android:textColor="@color/text_light" />
 
@@ -288,7 +282,137 @@
                     android:textColor="@color/text_dark" />
             </LinearLayout>
 
-            <!-- Edit Button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Condiciones médicas:"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_light" />
+
+                <TextView
+                    android:id="@+id/tvCondicionesMedicasEstado"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Detalle médico:"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_light" />
+
+                <TextView
+                    android:id="@+id/tvCondicionesMedicasDetalles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/border_color"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Veterinario y Cuidados"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:paddingBottom="8dp"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Veterinario:"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_light" />
+
+                <TextView
+                    android:id="@+id/tvVeterinarioNombre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Teléfono:"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_light" />
+
+                <TextView
+                    android:id="@+id/tvVeterinarioTelefono"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cuidados:"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_light" />
+
+                <TextView
+                    android:id="@+id/tvCuidados"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_dark" />
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btnEditarMascota"
                 android:layout_width="match_parent"

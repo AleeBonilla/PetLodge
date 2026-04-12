@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <!-- Top Nav Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -36,7 +35,6 @@
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +46,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Imagen -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,7 +63,6 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Nombre Completo -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +85,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Tipo de Mascota -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +107,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Raza -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,7 +129,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Edad -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +151,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Sexo -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -181,7 +173,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Tamaño -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -204,7 +195,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Estado de vacunación -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -227,7 +217,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Detalles de vacunas -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -252,21 +241,42 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Vacunas -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vacunas"
+                android:text="Condiciones médicas relevantes"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
                 android:layout_marginBottom="6dp" />
 
             <EditText
-                android:id="@+id/etVacunas"
+                android:id="@+id/etCondicionesMedicasEstado"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Sí / No"
+                android:inputType="text"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/text_dark"
+                android:textColorHint="@color/text_light"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detalles de condiciones médicas"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/etCondicionesMedicasDetalles"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:hint="Lista de vacunas"
+                android:hint="Describe las condiciones médicas"
                 android:inputType="textMultiLine"
                 android:gravity="top"
                 android:background="@drawable/bg_input"
@@ -277,7 +287,28 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Teléfono Veterinario -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre del veterinario"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/etNombreVet"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Nombre del veterinario"
+                android:inputType="textPersonName"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/text_dark"
+                android:textColorHint="@color/text_light"
+                android:layout_marginBottom="16dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -300,7 +331,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Cuidados especiales -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -325,7 +355,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Alimentación y comportamiento -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -350,7 +379,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Save Button -->
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
