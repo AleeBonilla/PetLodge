@@ -9,9 +9,12 @@ servicios y notificaciones.
 - Proyecto Android nativo con Kotlin.
 - UI basada en Activities XML + ViewBinding.
 - El proyecto ya compila con `assembleDebug`.
-- Las pantallas existen, pero la mayoria todavia usan navegacion local y datos
-  estaticos.
-- El siguiente paso tecnico es conectar la app al backend con Retrofit/OkHttp.
+- Integracion Retrofit/OkHttp contra el backend Flask.
+- Login, registro, perfil, cambio de contrasena y cierre de sesion listos.
+- Mascotas: listar, registrar, ver detalle, editar y eliminar.
+- Catalogo: listar habitaciones y servicios reales del backend.
+- Reservas: crear, listar y cancelar.
+- Notificaciones: listar registros generados por el backend.
 
 ## Requisitos
 
@@ -194,8 +197,35 @@ Email: admin@petlodge.com
 Password: Admin123!
 ```
 
-Para probar como usuario movil, crea primero un usuario desde Swagger o desde
+Para probar como usuario movil con mascota demo:
+
+```text
+Email: cliente@petlodge.com
+Password: Cliente123
+```
+
+Tambien puedes crear un usuario nuevo desde la app, Swagger o
 `POST /api/v1/auth/register`.
+
+## Prueba Rapida En La App
+
+Con backend y emulador arriba:
+
+1. Registra un usuario desde la app o desde Swagger.
+2. Inicia sesion con ese usuario.
+3. Entra a `Mascotas` y registra una mascota. Si usas `cliente@petlodge.com`,
+   ya existe una mascota demo.
+4. Entra a `+ Nueva Reserva`.
+5. Selecciona mascota, habitacion y fechas futuras con el calendario.
+6. Confirma la reserva.
+7. Entra a `Reservas` y verifica que aparece como `Confirmada`.
+8. Toca `Cancelar reserva` y verifica que cambia a `Cancelada`.
+9. Entra a `Notificaciones` y verifica que aparecen los registros enviados por
+   el backend.
+
+Nota: si el correo SMTP del backend no esta configurado, las notificaciones
+pueden aparecer con estado `Fallida`. Eso no bloquea la app; indica que el
+backend genero el registro, pero no pudo autenticarse contra el servidor SMTP.
 
 ## URL Del Backend Desde Android
 
@@ -253,8 +283,13 @@ Orden recomendado:
 Estado de integracion:
 
 - Login real contra backend: listo.
+- Registro real contra backend: listo.
 - Guardado de `access_token` y datos basicos de usuario: listo.
-- Registro y pantallas restantes: pendiente.
+- Perfil, edicion de perfil, cierre de sesion y cambio de contrasena: listo.
+- Mascotas: listar, registrar, ver detalle, editar y eliminar: listo.
+- Catalogo de habitaciones y servicios: listo.
+- Reservas: crear, listar y cancelar: listo.
+- Notificaciones: listar registros del backend: listo.
 
 ## Endpoints Moviles Del Backend
 

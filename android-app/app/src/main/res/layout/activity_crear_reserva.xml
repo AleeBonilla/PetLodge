@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <!-- Top Nav Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -36,7 +35,6 @@
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,11 +46,10 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Selecciona tu Mascota -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selecciona tu Mascota"
+                android:text="Mascota"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
@@ -67,11 +64,37 @@
                 android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Fecha de Ingreso -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fecha de Ingreso"
+                android:text="Habitación"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <Spinner
+                android:id="@+id/spinnerHabitacion"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_input"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/tvTipoHospedaje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selecciona una habitación para ver el tipo de hospedaje."
+                android:textSize="13sp"
+                android:textColor="@color/text_light"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha de ingreso"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
@@ -81,8 +104,9 @@
                 android:id="@+id/etFechaIngreso"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="DD/MM/AAAA"
-                android:inputType="date"
+                android:hint="Toca para seleccionar"
+                android:inputType="none"
+                android:focusable="false"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -90,11 +114,10 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Fecha de Salida -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fecha de Salida"
+                android:text="Fecha de salida"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
@@ -104,8 +127,9 @@
                 android:id="@+id/etFechaSalida"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint="DD/MM/AAAA"
-                android:inputType="date"
+                android:hint="Toca para seleccionar"
+                android:inputType="none"
+                android:focusable="false"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -113,56 +137,62 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Servicios Adicionales -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Servicios Adicionales"
+                android:text="Servicios adicionales"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_dark"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="6dp" />
 
-            <CheckBox
-                android:id="@+id/cbBano"
+            <LinearLayout
+                android:id="@+id/servicesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Baño"
-                android:textSize="14sp"
-                android:textColor="@color/text_dark"
-                android:buttonTint="@color/primary"
-                android:layout_marginBottom="8dp" />
-
-            <CheckBox
-                android:id="@+id/cbPaseo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Paseo"
-                android:textSize="14sp"
-                android:textColor="@color/text_dark"
-                android:buttonTint="@color/primary"
-                android:layout_marginBottom="8dp" />
-
-            <CheckBox
-                android:id="@+id/cbAlimentacion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Alimentación especial"
-                android:textSize="14sp"
-                android:textColor="@color/text_dark"
-                android:buttonTint="@color/primary"
+                android:orientation="vertical"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Verificar Disponibilidad Button -->
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total estimado: CRC 0.00"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notas"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/etNotas"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:hint="Cuidados, horarios o indicaciones especiales"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:background="@drawable/bg_input"
+                android:padding="16dp"
+                android:textColor="@color/text_dark"
+                android:textColorHint="@color/text_light"
+                android:layout_marginBottom="16dp" />
+
             <Button
                 android:id="@+id/btnVerificarDisponibilidad"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Verificar Disponibilidad"
+                android:text="Calcular Total"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="4dp" />
 
-            <!-- Confirmar Reserva Button -->
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
@@ -171,7 +201,6 @@
                 android:backgroundTint="@color/accent"
                 android:textColor="@color/white"
                 android:layout_marginTop="10dp" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -75,9 +75,11 @@ def register_cli_commands(app):
         """Poblar la base de datos con datos iniciales."""
         from seeds.seed_rooms import seed_rooms
         from seeds.seed_admin import seed_admin
+        from seeds.seed_demo import seed_demo_owner
 
         seed_rooms()
         seed_admin()
+        seed_demo_owner()
         click.echo("Seed completado.")
 
     @app.cli.command("seed-rooms")
@@ -93,3 +95,10 @@ def register_cli_commands(app):
         from seeds.seed_admin import seed_admin
         seed_admin()
         click.echo("Admin creado.")
+
+    @app.cli.command("seed-demo")
+    def seed_demo_cmd():
+        """Crear usuario demo para la app movil."""
+        from seeds.seed_demo import seed_demo_owner
+        seed_demo_owner()
+        click.echo("Demo movil creado.")

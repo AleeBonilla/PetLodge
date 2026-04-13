@@ -59,6 +59,13 @@ Email: admin@petlodge.com
 Password: Admin123!
 ```
 
+Credenciales demo para probar la app movil:
+
+```text
+Email: cliente@petlodge.com
+Password: Cliente123
+```
+
 Para detener:
 
 ```powershell
@@ -146,6 +153,7 @@ Esto crea:
 - 10 habitaciones
 - 6 servicios adicionales
 - 1 usuario administrador
+- 1 usuario demo para la app movil con una mascota
 
 ### 7. Ejecutar API
 
@@ -196,7 +204,7 @@ docker compose exec -T api python -m pytest tests -q
 Resultado esperado:
 
 ```text
-24 passed
+30 passed
 ```
 
 ## Pruebas Rapidas Con Curl
@@ -251,7 +259,7 @@ La API ya permite a la app movil:
 - Registrar, listar, editar y eliminar mascotas
 - Listar habitaciones disponibles
 - Listar servicios adicionales
-- Crear reservas estandar y especiales
+- Crear reservas estándar y especiales
 - Validar solapamientos de reservas
 - Cancelar reservas
 - Consultar historial de notificaciones

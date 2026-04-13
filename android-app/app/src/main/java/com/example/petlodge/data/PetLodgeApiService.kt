@@ -4,9 +4,14 @@ import com.example.petlodge.data.dto.ApiResponse
 import com.example.petlodge.data.dto.ChangePasswordRequest
 import com.example.petlodge.data.dto.LoginRequest
 import com.example.petlodge.data.dto.LoginResponse
+import com.example.petlodge.data.dto.NotificationResponse
 import com.example.petlodge.data.dto.PetRequest
 import com.example.petlodge.data.dto.PetResponse
 import com.example.petlodge.data.dto.RegisterRequest
+import com.example.petlodge.data.dto.ReservationCreateRequest
+import com.example.petlodge.data.dto.ReservationResponse
+import com.example.petlodge.data.dto.RoomResponse
+import com.example.petlodge.data.dto.ServiceResponse
 import com.example.petlodge.data.dto.UserResponse
 import com.example.petlodge.data.dto.UserUpdateRequest
 import retrofit2.Call
@@ -54,5 +59,30 @@ interface PetLodgeApiService {
 
     @DELETE("pets/{petId}")
     fun deletePet(@Path("petId") petId: Int): Call<ApiResponse<Unit>>
+
+    // Catalog
+    @GET("rooms")
+    fun getRooms(): Call<ApiResponse<List<RoomResponse>>>
+
+    @GET("services")
+    fun getServices(): Call<ApiResponse<List<ServiceResponse>>>
+
+    // Reservations
+    @GET("reservations/")
+    fun getReservations(): Call<ApiResponse<List<ReservationResponse>>>
+
+    @POST("reservations/")
+    fun createReservation(
+        @Body request: ReservationCreateRequest
+    ): Call<ApiResponse<ReservationResponse>>
+
+    @DELETE("reservations/{reservationId}")
+    fun cancelReservation(
+        @Path("reservationId") reservationId: Int
+    ): Call<ApiResponse<ReservationResponse>>
+
+    // Notifications
+    @GET("notifications/")
+    fun getNotifications(): Call<ApiResponse<List<NotificationResponse>>>
 }
 
