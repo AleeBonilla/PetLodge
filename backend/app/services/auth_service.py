@@ -90,3 +90,17 @@ class AuthService:
         db.session.commit()
 
         return True
+
+    @staticmethod
+    def change_password(user_id, current_password, new_password):
+        user = User.query.get(user_id)
+        if not user:
+            return None, "Usuario no encontrado.", "USER_NOT_FOUND"
+
+        if not user.check_password(current_password):
+            return None, "La contraseña actual es incorrecta.", "INVALID_PASSWORD"
+
+        user.set_password(new_password)
+        db.session.commit()
+        return user, None, None
+

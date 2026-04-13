@@ -94,29 +94,6 @@
                 android:textColorHint="@color/text_light"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Edad -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Edad"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_dark"
-                android:layout_marginBottom="6dp" />
-
-            <EditText
-                android:id="@+id/etEdad"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Tu edad"
-                android:inputType="number"
-                android:background="@drawable/bg_input"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="@color/text_dark"
-                android:textColorHint="@color/text_light"
-                android:layout_marginBottom="16dp" />
-
             <!-- Dirección -->
             <TextView
                 android:layout_width="match_parent"

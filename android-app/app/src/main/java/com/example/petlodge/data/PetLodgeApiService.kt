@@ -1,10 +1,14 @@
 package com.example.petlodge.data
 
 import com.example.petlodge.data.dto.ApiResponse
+import com.example.petlodge.data.dto.ChangePasswordRequest
 import com.example.petlodge.data.dto.LoginRequest
 import com.example.petlodge.data.dto.LoginResponse
 import com.example.petlodge.data.dto.PetRequest
 import com.example.petlodge.data.dto.PetResponse
+import com.example.petlodge.data.dto.RegisterRequest
+import com.example.petlodge.data.dto.UserResponse
+import com.example.petlodge.data.dto.UserUpdateRequest
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -14,9 +18,25 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface PetLodgeApiService {
+
+    // Auth
     @POST("auth/login")
     fun login(@Body request: LoginRequest): Call<ApiResponse<LoginResponse>>
 
+    @POST("auth/register")
+    fun register(@Body request: RegisterRequest): Call<ApiResponse<UserResponse>>
+
+    @PUT("auth/change-password")
+    fun changePassword(@Body request: ChangePasswordRequest): Call<ApiResponse<Unit>>
+
+    // Users / Profile
+    @GET("users/me")
+    fun getProfile(): Call<ApiResponse<UserResponse>>
+
+    @PUT("users/me")
+    fun updateProfile(@Body request: UserUpdateRequest): Call<ApiResponse<UserResponse>>
+
+    // Pets
     @GET("pets/")
     fun getPets(): Call<ApiResponse<List<PetResponse>>>
 
@@ -35,3 +55,4 @@ interface PetLodgeApiService {
     @DELETE("pets/{petId}")
     fun deletePet(@Path("petId") petId: Int): Call<ApiResponse<Unit>>
 }
+

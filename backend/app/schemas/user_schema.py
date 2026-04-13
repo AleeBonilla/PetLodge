@@ -4,9 +4,9 @@ from marshmallow import fields
 
 class UserSchema(ma.Schema):
     id = fields.Integer(dump_only=True)
-    email = fields.Email(required=True)
+    email = fields.Email(dump_only=True)
     full_name = fields.String(required=True)
-    id_number = fields.String(required=True)
+    id_number = fields.String(dump_only=True)
     phone = fields.String()
     address = fields.String()
     role = fields.String(dump_only=True)

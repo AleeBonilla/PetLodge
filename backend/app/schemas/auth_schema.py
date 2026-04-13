@@ -14,3 +14,8 @@ class RegisterSchema(ma.Schema):
 class LoginSchema(ma.Schema):
     email = fields.Email(required=True)
     password = fields.String(required=True)
+
+
+class ChangePasswordSchema(ma.Schema):
+    current_password = fields.String(required=True)
+    new_password = fields.String(required=True, validate=validate.Length(min=8))

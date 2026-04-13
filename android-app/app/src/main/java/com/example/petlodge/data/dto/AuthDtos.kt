@@ -30,3 +30,15 @@ data class AuthUser(
     val fullName: String,
     val role: String
 )
+
+data class RegisterRequest(
+    val email: String,
+    val password: String,
+    @SerializedName("full_name")
+    val fullName: String,
+    @SerializedName("id_number")
+    val idNumber: String,
+    val phone: String?,
+    val address: String?,
+)
+

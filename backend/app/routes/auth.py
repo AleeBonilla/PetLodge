@@ -1,8 +1,8 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.schemas.auth_schema import RegisterSchema, LoginSchema
+from app.schemas.auth_schema import RegisterSchema, LoginSchema, ChangePasswordSchema
 from app.schemas.user_schema import UserSchema
 from app.services.auth_service import AuthService
 from app.services.notification_service import NotificationService
@@ -63,3 +63,22 @@ class Logout(MethodView):
     def post(self):
         AuthService.logout()
         return success_response(message="Sesión cerrada exitosamente.")
+
+
+@blp.route("/change-password")
+class ChangePassword(MethodView):
+    @jwt_required()
+    @blp.arguments(ChangePasswordSchema)
+    @blp.doc(summary="Cambiar contraseña", description="Cambia la contraseña del usuario autenticado")
+    def put(self, data):
+        user_id = int(get_jwt_identity())
+        _, err, code = AuthService.change_password(
+            user_id,
+            data["current_password"],
+            data["new_password"],
+        )
+        if err:
+            status = 404 if code == "USER_NOT_FOUND" else 401
+            return error_response(err, code, status)
+        return success_response(message="Contraseña actualizada exitosamente.")
+

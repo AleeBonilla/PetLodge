@@ -17,6 +17,9 @@ class SessionManager(context: Context) {
     }
 
     fun getAccessToken(): String? = preferences.getString(KEY_ACCESS_TOKEN, null)
+    fun getFullName(): String? = preferences.getString(KEY_FULL_NAME, null)
+    fun getEmail(): String? = preferences.getString(KEY_EMAIL, null)
+    fun getUserId(): Int = preferences.getInt(KEY_USER_ID, -1)
 
     fun clearSession() {
         preferences.edit().clear().apply()
@@ -32,3 +35,4 @@ class SessionManager(context: Context) {
         private const val KEY_ROLE = "role"
     }
 }
+
