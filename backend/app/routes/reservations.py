@@ -12,6 +12,7 @@ from app.services.reservation_service import ReservationService
 from app.services.notification_service import NotificationService
 from app.models.user import User
 from app.utils.helpers import success_response, error_response
+from app.utils.decorators import admin_required
 
 blp = Blueprint(
     "reservations", __name__,
@@ -145,11 +146,10 @@ class ReservationDetail(MethodView):
 
 @blp.route("/<int:reservation_id>/status")
 class ReservationStatusUpdate(MethodView):
-    @jwt_required()
+    @admin_required
     @blp.arguments(ReservationStatusUpdateSchema)
     @blp.doc(summary="Actualizar estado de reserva", description="Admins actualizarán el estado de la reserva (inicio/fin hospedaje)")
     def patch(self, data, reservation_id):
-        # NOTE: Ideally this would check for admin role
         reservation, err, code = ReservationService.update_status(reservation_id, data)
         if err:
              status = 404 if code == "RESERVATION_NOT_FOUND" else 400
