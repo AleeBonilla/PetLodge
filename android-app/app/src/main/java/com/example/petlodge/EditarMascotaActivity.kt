@@ -16,7 +16,6 @@ import android.util.Base64
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
@@ -438,25 +437,33 @@ class EditarMascotaActivity : AppCompatActivity() {
 
     private fun processImage(uri: Uri) {
         try {
-            val inputStream: InputStream? = contentResolver.openInputStream(uri)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            
+            val bitmap = contentResolver.openInputStream(uri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+
+            if (bitmap == null) {
+                Toast.makeText(this, "No se pudo leer la imagen.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             val maxDim = 800
             val scale = minOf(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
             val scaledBitmap = if (scale < 1f) {
-                Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+                val scaled = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+                bitmap.recycle()
+                scaled
             } else {
                 bitmap
             }
-            
+
             binding.ivPreviewImage.setImageBitmap(scaledBitmap)
             binding.ivPreviewImage.visibility = View.VISIBLE
-            
+
             val outputStream = ByteArrayOutputStream()
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
             val byteArray = outputStream.toByteArray()
             photoBase64String = Base64.encodeToString(byteArray, Base64.NO_WRAP)
-            
+
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Error al procesar la imagen.", Toast.LENGTH_SHORT).show()

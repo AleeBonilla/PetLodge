@@ -15,7 +15,6 @@ import android.util.Base64
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -181,22 +180,22 @@ class RegistrarMascotaActivity : AppCompatActivity() {
             return false
         }
 
-        if (rawAge.isBlank() && rawAge.toIntOrNull() == null) {
+        if (rawAge.isBlank() || rawAge.toIntOrNull() == null) {
             binding.etEdad.error = "Ingresa una edad válida."
             return false
         }
 
-        if (rawSex.isBlank() && sex == null) {
+        if (rawSex.isBlank() || sex == null) {
             binding.etSexo.error = "Usa macho o hembra."
             return false
         }
 
-        if (rawSize.isBlank() && size == null) {
+        if (rawSize.isBlank() || size == null) {
             binding.etTamano.error = "Usa pequeño, mediano o grande."
             return false
         }
 
-        if (rawVaccinated.isBlank() && vaccinated == null) {
+        if (rawVaccinated.isBlank() || vaccinated == null) {
             binding.etVacunacionEstado.error = "Usa sí o no."
             return false
         }
@@ -206,7 +205,7 @@ class RegistrarMascotaActivity : AppCompatActivity() {
             return false
         }
 
-        if (rawHasMedicalConditions.isBlank() && hasMedicalConditions == null) {
+        if (rawHasMedicalConditions.isBlank() || hasMedicalConditions == null) {
             binding.etCondicionesMedicasEstado.error = "Usa sí o no."
             return false
         }
@@ -276,26 +275,33 @@ class RegistrarMascotaActivity : AppCompatActivity() {
 
     private fun processImage(uri: Uri) {
         try {
-            val inputStream: InputStream? = contentResolver.openInputStream(uri)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            
-            // resize to max 800x800 for safety
+            val bitmap = contentResolver.openInputStream(uri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+
+            if (bitmap == null) {
+                Toast.makeText(this, "No se pudo leer la imagen.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
             val maxDim = 800
             val scale = minOf(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
             val scaledBitmap = if (scale < 1f) {
-                Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+                val scaled = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+                bitmap.recycle()
+                scaled
             } else {
                 bitmap
             }
-            
+
             binding.ivPreviewImage.setImageBitmap(scaledBitmap)
             binding.ivPreviewImage.visibility = View.VISIBLE
-            
+
             val outputStream = ByteArrayOutputStream()
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
             val byteArray = outputStream.toByteArray()
             photoBase64String = Base64.encodeToString(byteArray, Base64.NO_WRAP)
-            
+
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Error al procesar la imagen.", Toast.LENGTH_SHORT).show()

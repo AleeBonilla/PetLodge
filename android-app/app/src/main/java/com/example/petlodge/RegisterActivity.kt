@@ -106,8 +106,8 @@ class RegisterActivity : AppCompatActivity() {
             binding.etNombre.requestFocus()
             return false
         }
-        if (idNumber.isBlank() and (idNumber.length < 8)) {
-            binding.etCedula.error = "La cédula es requerida."
+        if (idNumber.isBlank() || idNumber.length < 8) {
+            binding.etCedula.error = "La cédula debe tener al menos 8 caracteres."
             binding.etCedula.requestFocus()
             return false
         }
