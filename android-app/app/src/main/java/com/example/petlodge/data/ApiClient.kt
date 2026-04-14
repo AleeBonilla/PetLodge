@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ApiClient {
-    const val SERVER_IP = "192.168.50.232"
+    const val SERVER_IP = "10.0.2.2"
     // Default: 10.0.2.2
 
     const val BASE_URL = "http://$SERVER_IP:5000/api/v1/"
