@@ -37,6 +37,7 @@ class ReservationList(MethodView):
                 "RESERVATION_CONFLICT": 409,
                 "SERVICES_NOT_ALLOWED": 400,
                 "SERVICE_NOT_FOUND": 404,
+                "DUPLICATE_SERVICES": 400,
             }
             return error_response(err, code, status_map.get(code, 400))
 
@@ -121,6 +122,7 @@ class ReservationDetail(MethodView):
                  "RESERVATION_CONFLICT": 409,
                  "SERVICES_NOT_ALLOWED": 400,
                  "SERVICE_NOT_FOUND": 404,
+                 "DUPLICATE_SERVICES": 400,
             }
             return error_response(err, code, status_map.get(code, 400))
 
@@ -152,7 +154,7 @@ class ReservationStatusUpdate(MethodView):
     def patch(self, data, reservation_id):
         reservation, err, code = ReservationService.update_status(reservation_id, data)
         if err:
-             status = 404 if code == "RESERVATION_NOT_FOUND" else 400
+             status = 404 if code == "RESERVATION_NOT_FOUND" else 422 if code == "INVALID_TRANSITION" else 400
              return error_response(err, code, status)
              
         user = User.query.get(reservation.owner_id)
