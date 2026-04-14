@@ -36,6 +36,12 @@ def seed_templates():
             "variables": "user_name,pet_name",
         },
         {
+            "event_type": "reservation_cancelled",
+            "subject": "Reserva cancelada",
+            "body_html": "<p>Hola {{user_name}},</p><p>Tu reserva para <b>{{pet_name}}</b> ha sido cancelada.</p><p><b>Ingreso:</b> {{check_in_date}}<br><b>Salida:</b> {{check_out_date}}<br><b>Habitación:</b> {{room_number}}</p><p>Si fue un error o necesitas ayuda, no dudes en contactarnos.</p>",
+            "variables": "user_name,pet_name,check_in_date,check_out_date,room_number",
+        },
+        {
             "event_type": "pet_status_notice",
             "subject": "Aviso sobre {{pet_name}}",
             "body_html": "<p>Hola {{user_name}},</p><p>Tenemos un aviso acerca de <b>{{pet_name}}</b>:</p><blockquote>{{notice_message}}</blockquote><p>Para más detalles, revisa la aplicación.</p>",
