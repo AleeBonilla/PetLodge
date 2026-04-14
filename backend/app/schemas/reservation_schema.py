@@ -40,6 +40,9 @@ class ReservationSchema(ma.Schema):
     updated_at = fields.DateTime(dump_only=True)
 
 
+MAX_STAY_DAYS = 365
+
+
 class ReservationCreateSchema(ma.Schema):
     pet_id = fields.Integer(required=True)
     room_id = fields.Integer(required=True)
@@ -60,6 +63,12 @@ class ReservationCreateSchema(ma.Schema):
                     "check_out_date must be after check_in_date.",
                     field_name="check_out_date",
                 )
+            days = (data["check_out_date"] - data["check_in_date"]).days
+            if days > MAX_STAY_DAYS:
+                raise ValidationError(
+                    f"La estadía no puede superar {MAX_STAY_DAYS} días.",
+                    field_name="check_out_date",
+                )
 
 class ReservationUpdateSchema(ma.Schema):
     room_id = fields.Integer(required=False)
@@ -74,6 +83,12 @@ class ReservationUpdateSchema(ma.Schema):
             if data["check_out_date"] <= data["check_in_date"]:
                 raise ValidationError(
                     "check_out_date must be after check_in_date.",
+                    field_name="check_out_date",
+                )
+            days = (data["check_out_date"] - data["check_in_date"]).days
+            if days > MAX_STAY_DAYS:
+                raise ValidationError(
+                    f"La estadía no puede superar {MAX_STAY_DAYS} días.",
                     field_name="check_out_date",
                 )
 
