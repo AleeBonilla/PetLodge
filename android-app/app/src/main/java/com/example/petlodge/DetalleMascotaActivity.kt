@@ -69,7 +69,7 @@ class DetalleMascotaActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@DetalleMascotaActivity,
-                            body?.error ?: "No se pudo cargar la mascota.",
+                            body?.error ?: "Error al cargar la mascota.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -82,7 +82,7 @@ class DetalleMascotaActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@DetalleMascotaActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }

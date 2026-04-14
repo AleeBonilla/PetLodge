@@ -121,7 +121,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.etEmail.requestFocus()
             return false
         }
-        if (phone.isBlank()) {
+        if (phone.isBlank() || phone.length < 8) {
             binding.etTelefono.error = "El teléfono es requerido."
             binding.etTelefono.requestFocus()
             return false

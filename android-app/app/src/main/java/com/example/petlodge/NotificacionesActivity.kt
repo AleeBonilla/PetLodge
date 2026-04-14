@@ -49,7 +49,7 @@ class NotificacionesActivity : AppCompatActivity() {
                         renderNotifications(emptyList())
                         Toast.makeText(
                             this@NotificacionesActivity,
-                            body?.error ?: "No se pudieron cargar las notificaciones.",
+                            body?.error ?: "Error al cargar las notificaciones.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -63,7 +63,7 @@ class NotificacionesActivity : AppCompatActivity() {
                     renderNotifications(emptyList())
                     Toast.makeText(
                         this@NotificacionesActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }

@@ -81,7 +81,7 @@ class EditarMascotaActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@EditarMascotaActivity,
-                            body?.error ?: "No se pudo cargar la mascota.",
+                            body?.error ?: "Error al cargar la mascota.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -94,7 +94,7 @@ class EditarMascotaActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@EditarMascotaActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -204,7 +204,7 @@ class EditarMascotaActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@EditarMascotaActivity,
-                            body?.error ?: "No se pudo actualizar la mascota.",
+                            body?.error ?: "Error al actualizar la mascota.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -217,7 +217,7 @@ class EditarMascotaActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@EditarMascotaActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -254,7 +254,7 @@ class EditarMascotaActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@EditarMascotaActivity,
-                            body?.error ?: "No se pudo eliminar la mascota.",
+                            body?.error ?: "Error al eliminar la mascota.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -264,7 +264,7 @@ class EditarMascotaActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@EditarMascotaActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }

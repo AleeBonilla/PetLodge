@@ -59,7 +59,7 @@ class CambiarContraActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@CambiarContraActivity,
-                            body?.error ?: "No se pudo cambiar la contraseña.",
+                            body?.error ?: "Error al cambiar la contraseña.",
                             Toast.LENGTH_LONG
                         ).show()
                     }

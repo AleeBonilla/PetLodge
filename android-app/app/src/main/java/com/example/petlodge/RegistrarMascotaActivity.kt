@@ -126,7 +126,7 @@ class RegistrarMascotaActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@RegistrarMascotaActivity,
-                            body?.error ?: "No se pudo registrar la mascota.",
+                            body?.error ?: "Error al registrar la mascota.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -139,7 +139,7 @@ class RegistrarMascotaActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@RegistrarMascotaActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -280,7 +280,7 @@ class RegistrarMascotaActivity : AppCompatActivity() {
             }
 
             if (bitmap == null) {
-                Toast.makeText(this, "No se pudo leer la imagen.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al leer la imagen.", Toast.LENGTH_SHORT).show()
                 return
             }
 

@@ -174,7 +174,7 @@ class CrearReservaActivity : AppCompatActivity() {
                     pets.addAll(body.data.orEmpty())
                     bindPets()
                 } else {
-                    showServerError(body?.error, "No se pudieron cargar las mascotas.")
+                    showServerError(body?.error, "Error al cargar las mascotas.")
                 }
                 markCatalogLoadFinished()
             }
@@ -198,7 +198,7 @@ class CrearReservaActivity : AppCompatActivity() {
                     rooms.addAll(body.data.orEmpty())
                     bindRooms()
                 } else {
-                    showServerError(body?.error, "No se pudieron cargar las habitaciones.")
+                    showServerError(body?.error, "Error al cargar las habitaciones.")
                 }
                 markCatalogLoadFinished()
             }
@@ -222,7 +222,7 @@ class CrearReservaActivity : AppCompatActivity() {
                     services.addAll(body.data.orEmpty())
                     bindServices()
                 } else {
-                    showServerError(body?.error, "No se pudieron cargar los servicios.")
+                    showServerError(body?.error, "Error al cargar los servicios.")
                 }
                 markCatalogLoadFinished()
             }
@@ -352,7 +352,7 @@ class CrearReservaActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     } else {
-                        showServerError(body?.error, "No se pudo crear la reserva.")
+                        showServerError(body?.error, "Error al crear la reserva.")
                     }
                 }
 
@@ -473,7 +473,7 @@ class CrearReservaActivity : AppCompatActivity() {
     }
 
     private fun showConnectionError() {
-        Toast.makeText(this, "No se pudo conectar con el servidor.", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Error al conectar con el servidor.", Toast.LENGTH_LONG).show()
     }
 
     private fun String.toDisplayValue(): String = when (this) {

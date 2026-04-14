@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@LoginActivity,
-                            body?.error ?: "No se pudo iniciar sesion.",
+                            body?.error ?: "Error al iniciar sesion.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@LoginActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }

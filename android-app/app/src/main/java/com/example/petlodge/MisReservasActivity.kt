@@ -57,7 +57,7 @@ class MisReservasActivity : AppCompatActivity() {
                         renderReservations(emptyList())
                         Toast.makeText(
                             this@MisReservasActivity,
-                            body?.error ?: "No se pudieron cargar las reservas.",
+                            body?.error ?: "Error al cargar las reservas.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -71,7 +71,7 @@ class MisReservasActivity : AppCompatActivity() {
                     renderReservations(emptyList())
                     Toast.makeText(
                         this@MisReservasActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -184,7 +184,7 @@ class MisReservasActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@MisReservasActivity,
-                            body?.error ?: "No se pudo cancelar la reserva.",
+                            body?.error ?: "Error al cancelar la reserva.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -197,7 +197,7 @@ class MisReservasActivity : AppCompatActivity() {
                     setLoading(false)
                     Toast.makeText(
                         this@MisReservasActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }

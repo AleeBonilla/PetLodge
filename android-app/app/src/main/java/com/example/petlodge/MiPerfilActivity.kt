@@ -61,7 +61,7 @@ class MiPerfilActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@MiPerfilActivity,
-                            "No se pudo cargar el perfil.",
+                            "Error al cargar el perfil.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -96,6 +96,11 @@ class MiPerfilActivity : AppCompatActivity() {
             return
         }
 
+        if (phone.isBlank() || phone.length < 8) {
+            binding.etTelefono.error = "El numero de telefono debe tener al menos 8 caracteres"
+            return
+        }
+
         val request = UserUpdateRequest(
             fullName = fullName,
             phone = phone.ifBlank { null },
@@ -121,7 +126,7 @@ class MiPerfilActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@MiPerfilActivity,
-                            body?.error ?: "No se pudo actualizar el perfil.",
+                            body?.error ?: "Error al actualizar el perfil.",
                             Toast.LENGTH_LONG
                         ).show()
                     }

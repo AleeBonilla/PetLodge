@@ -57,7 +57,7 @@ class MisMascotasActivity : AppCompatActivity() {
                         renderPets(emptyList())
                         Toast.makeText(
                             this@MisMascotasActivity,
-                            body?.error ?: "No se pudieron cargar las mascotas.",
+                            body?.error ?: "Error al cargar las mascotas.",
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -71,7 +71,7 @@ class MisMascotasActivity : AppCompatActivity() {
                     renderPets(emptyList())
                     Toast.makeText(
                         this@MisMascotasActivity,
-                        "No se pudo conectar con el servidor.",
+                        "Error al conectar con el servidor.",
                         Toast.LENGTH_LONG
                     ).show()
                 }
