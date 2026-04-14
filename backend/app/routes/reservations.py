@@ -86,6 +86,20 @@ class ReservationDetail(MethodView):
         if err:
             status = 404 if code == "RESERVATION_NOT_FOUND" else 400
             return error_response(err, code, status)
+        # Send cancellation notification
+        user = User.query.get(owner_id)
+        NotificationService.send_notification(
+            user,
+            "reservation_cancelled",
+            {
+                "user_name": user.full_name,
+                "pet_name": reservation.pet.name,
+                "check_in_date": str(reservation.check_in_date),
+                "check_out_date": str(reservation.check_out_date),
+                "room_number": reservation.room.number,
+            },
+        )
+
         return success_response(
             ReservationSchema().dump(reservation),
             "Reserva cancelada exitosamente.",
@@ -154,6 +168,18 @@ class ReservationStatusUpdate(MethodView):
                   user,
                   "lodging_ended",
                   {"user_name": user.full_name, "pet_name": reservation.pet.name}
+             )
+        elif reservation.status == "cancelled":
+             NotificationService.send_notification(
+                  user,
+                  "reservation_cancelled",
+                  {
+                      "user_name": user.full_name,
+                      "pet_name": reservation.pet.name,
+                      "check_in_date": str(reservation.check_in_date),
+                      "check_out_date": str(reservation.check_out_date),
+                      "room_number": reservation.room.number,
+                  },
              )
 
         return success_response(
