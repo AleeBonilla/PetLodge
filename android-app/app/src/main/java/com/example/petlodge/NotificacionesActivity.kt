@@ -169,9 +169,15 @@ class NotificacionesActivity : AppCompatActivity() {
     }
 
     private fun String.toDisplayValue(): String = when (this) {
+        "user_registered" -> "Registro de usuario"
         "reservation_confirmed" -> "Reserva confirmada"
+        "reservation_modified" -> "Reserva modificada"
+        "lodging_started" -> "Hospedaje iniciado"
+        "lodging_ended" -> "Hospedaje finalizado"
+        "pet_status_notice" -> "Aviso de mascota"
         "sent" -> "Enviada"
         "failed" -> "Fallida"
+        "pending" -> "Pendiente"
         else -> replace("_", " ").replaceFirstChar { character ->
             if (character.isLowerCase()) character.titlecase() else character.toString()
         }

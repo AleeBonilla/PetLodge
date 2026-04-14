@@ -2,7 +2,6 @@ package com.example.petlodge
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.petlodge.data.ApiClient
@@ -10,6 +9,15 @@ import com.example.petlodge.data.dto.ApiResponse
 import com.example.petlodge.data.dto.PetRequest
 import com.example.petlodge.data.dto.PetResponse
 import com.example.petlodge.databinding.ActivityEditarMascotaBinding
+import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +25,11 @@ import retrofit2.Response
 class EditarMascotaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditarMascotaBinding
     private var petId: Int = -1
+    private var photoBase64String: String? = null
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { processImage(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +43,7 @@ class EditarMascotaActivity : AppCompatActivity() {
         }
 
         binding.btnSeleccionarImagen.setOnClickListener {
-            Toast.makeText(
-                this,
-                "La carga de imagen aún no está implementada.",
-                Toast.LENGTH_SHORT
-            ).show()
+            pickImageLauncher.launch("image/*")
         }
 
         binding.btnSave.setOnClickListener {
@@ -110,6 +119,12 @@ class EditarMascotaActivity : AppCompatActivity() {
         val careSections = splitCareNotes(pet.careNotes)
         binding.etCuidadosEspeciales.setText(careSections.first)
         binding.etAlimentacion.setText(careSections.second)
+
+        val fullUrl = ApiClient.getFullImageUrl(pet.photoUrl)
+        if (fullUrl != null) {
+            binding.ivPreviewImage.visibility = View.VISIBLE
+            Glide.with(this).load(fullUrl).into(binding.ivPreviewImage)
+        }
     }
 
     private fun updatePet() {
@@ -166,7 +181,8 @@ class EditarMascotaActivity : AppCompatActivity() {
             medicalConditionsNotes = medicalConditionsNotes,
             veterinarianName = veterinarianName,
             veterinarianPhone = veterinarianPhone,
-            careNotes = careNotes
+            careNotes = careNotes,
+            photoBase64 = photoBase64String
         )
 
         setLoading(true)
@@ -418,6 +434,33 @@ class EditarMascotaActivity : AppCompatActivity() {
         true -> "Sí"
         false -> "No"
         null -> ""
+    }
+
+    private fun processImage(uri: Uri) {
+        try {
+            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            
+            val maxDim = 800
+            val scale = minOf(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
+            val scaledBitmap = if (scale < 1f) {
+                Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+            } else {
+                bitmap
+            }
+            
+            binding.ivPreviewImage.setImageBitmap(scaledBitmap)
+            binding.ivPreviewImage.visibility = View.VISIBLE
+            
+            val outputStream = ByteArrayOutputStream()
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
+            val byteArray = outputStream.toByteArray()
+            photoBase64String = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+            
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al procesar la imagen.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setLoading(isLoading: Boolean) {

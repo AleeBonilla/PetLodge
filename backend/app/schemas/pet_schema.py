@@ -33,6 +33,7 @@ class _PetSchemaBase(ma.Schema):
     veterinarian_name = fields.String(allow_none=True)
     veterinarian_phone = fields.String(allow_none=True)
     care_notes = fields.String(allow_none=True)
+    photo_base64 = fields.String(allow_none=True, load_only=True)
 
     @validates_schema
     def validate_conditional_notes(self, data, **kwargs):
@@ -69,3 +70,6 @@ class PetUpdateSchema(_PetSchemaBase):
         allow_none=True,
         validate=validate.OneOf(SPECIES_CHOICES),
     )
+
+class PetNoticeSchema(ma.Schema):
+    notice_message = fields.String(required=True)

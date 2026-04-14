@@ -76,10 +76,12 @@ def register_cli_commands(app):
         from seeds.seed_rooms import seed_rooms
         from seeds.seed_admin import seed_admin
         from seeds.seed_demo import seed_demo_owner
+        from seeds.seed_templates import seed_templates
 
         seed_rooms()
         seed_admin()
         seed_demo_owner()
+        seed_templates()
         click.echo("Seed completado.")
 
     @app.cli.command("seed-rooms")

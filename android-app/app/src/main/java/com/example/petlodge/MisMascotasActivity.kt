@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.petlodge.data.ApiClient
 import com.example.petlodge.data.dto.ApiResponse
 import com.example.petlodge.data.dto.PetResponse
@@ -94,9 +95,16 @@ class MisMascotasActivity : AppCompatActivity() {
             val summary = petView.findViewById<TextView>(R.id.tvPetSummary)
             val detailButton = petView.findViewById<Button>(R.id.btnViewPet)
 
-            icon.setColorFilter(
-                getColor(if (index % 2 == 0) R.color.primary else R.color.accent)
-            )
+            val fullUrl = ApiClient.getFullImageUrl(pet.photoUrl)
+            if (fullUrl != null) {
+                icon.clearColorFilter()
+                icon.imageTintList = null
+                Glide.with(this).load(fullUrl).into(icon)
+            } else {
+                icon.setColorFilter(
+                    getColor(if (index % 2 == 0) R.color.primary else R.color.accent)
+                )
+            }
             name.text = pet.name
             summary.text = buildPetSummary(pet)
             detailButton.setOnClickListener {

@@ -22,8 +22,8 @@ services:
       MAIL_SERVER: smtp.gmail.com
       MAIL_PORT: 587
       MAIL_USE_TLS: "true"
-      MAIL_USERNAME: ""
-      MAIL_PASSWORD: ""
+      MAIL_USERNAME: "petlodge91@gmail.com"
+      MAIL_PASSWORD: "gxyj oinw lpub xzdr"
       MAIL_DEFAULT_SENDER: noreply@petlodge.com
       ADMIN_EMAIL: admin@petlodge.com
       ADMIN_PASSWORD: Admin123!

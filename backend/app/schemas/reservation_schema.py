@@ -60,3 +60,25 @@ class ReservationCreateSchema(ma.Schema):
                     "check_out_date must be after check_in_date.",
                     field_name="check_out_date",
                 )
+
+class ReservationUpdateSchema(ma.Schema):
+    room_id = fields.Integer(required=False)
+    check_in_date = fields.Date(required=False)
+    check_out_date = fields.Date(required=False)
+    notes = fields.String(required=False)
+    service_ids = fields.List(fields.Integer(), required=False)
+
+    @validates_schema
+    def validate_dates(self, data, **kwargs):
+        if "check_in_date" in data and "check_out_date" in data:
+            if data["check_out_date"] <= data["check_in_date"]:
+                raise ValidationError(
+                    "check_out_date must be after check_in_date.",
+                    field_name="check_out_date",
+                )
+
+class ReservationStatusUpdateSchema(ma.Schema):
+    status = fields.String(
+        required=True,
+        validate=validate.OneOf(["in_progress", "completed", "cancelled"]),
+    )

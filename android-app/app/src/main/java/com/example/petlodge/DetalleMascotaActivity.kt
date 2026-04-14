@@ -9,6 +9,7 @@ import com.example.petlodge.data.ApiClient
 import com.example.petlodge.data.dto.ApiResponse
 import com.example.petlodge.data.dto.PetResponse
 import com.example.petlodge.databinding.ActivityDetalleMascotaBinding
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -102,6 +103,13 @@ class DetalleMascotaActivity : AppCompatActivity() {
         binding.tvVeterinarioNombre.text = pet.veterinarianName.orFallback()
         binding.tvVeterinarioTelefono.text = pet.veterinarianPhone.orFallback()
         binding.tvCuidados.text = pet.careNotes.orFallback()
+
+        val fullUrl = ApiClient.getFullImageUrl(pet.photoUrl)
+        if (fullUrl != null) {
+            binding.ivMascotaFoto.setPadding(0, 0, 0, 0)
+            binding.ivMascotaFoto.scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+            Glide.with(this).load(fullUrl).into(binding.ivMascotaFoto)
+        }
     }
 
     private fun String?.orFallback(): String = this?.takeIf { it.isNotBlank() } ?: "No registrado"

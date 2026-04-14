@@ -120,3 +120,90 @@ class ReservationService:
         reservation.status = "cancelled"
         db.session.commit()
         return reservation, None, None
+
+    @staticmethod
+    def update_reservation(reservation_id, owner_id, data):
+        reservation = Reservation.query.filter_by(
+            id=reservation_id, owner_id=owner_id
+        ).first()
+        if not reservation:
+            return None, "Reserva no encontrada.", "RESERVATION_NOT_FOUND"
+
+        if reservation.status != "confirmed":
+            return None, "No se puede modificar una reserva que ya inició o finalizó.", "CANNOT_MODIFY"
+
+        new_room_id = data.get("room_id", reservation.room_id)
+        new_check_in = data.get("check_in_date", reservation.check_in_date)
+        new_check_out = data.get("check_out_date", reservation.check_out_date)
+
+        if new_check_in < date.today() and new_check_in != reservation.check_in_date:
+             return None, "La fecha de ingreso no puede ser en el pasado.", "INVALID_CHECK_IN"
+
+        # Check availability if dates or room changed
+        if (new_room_id != reservation.room_id or 
+            new_check_in != reservation.check_in_date or 
+            new_check_out != reservation.check_out_date):
+            
+            room = Room.query.filter_by(id=new_room_id, is_active=True).first()
+            if not room:
+                return None, "Habitación no encontrada o no disponible.", "ROOM_NOT_FOUND"
+
+            if not ReservationService.check_availability(new_room_id, new_check_in, new_check_out, exclude_reservation_id=reservation.id):
+                return None, "La habitación no está disponible en las fechas solicitadas.", "RESERVATION_CONFLICT"
+            
+            reservation.room_id = new_room_id
+            reservation.check_in_date = new_check_in
+            reservation.check_out_date = new_check_out
+
+        if "notes" in data:
+            reservation.notes = data["notes"]
+
+        num_nights = (reservation.check_out_date - reservation.check_in_date).days
+        room = Room.query.get(reservation.room_id)
+        total_price = room.price_per_night * num_nights
+
+        if "service_ids" in data:
+            if reservation.lodging_type != "special" and data["service_ids"]:
+                return None, "Los servicios adicionales solo están disponibles para hospedaje especial.", "SERVICES_NOT_ALLOWED"
+            
+            # Clear existing services
+            ReservationServiceModel.query.filter_by(reservation_id=reservation.id).delete()
+            
+            for service_id in data["service_ids"]:
+                service = Service.query.filter_by(id=service_id, is_active=True).first()
+                if not service:
+                     db.session.rollback()
+                     return None, f"Servicio con id {service_id} no encontrado.", "SERVICE_NOT_FOUND"
+                 
+                rs = ReservationServiceModel(
+                    reservation_id=reservation.id,
+                    service_id=service.id,
+                    quantity=1,
+                    subtotal=service.price * num_nights,
+                )
+                db.session.add(rs)
+                total_price += rs.subtotal
+        else:
+             # Recalculate price for existing services if nights changed
+             for rs in reservation.services:
+                 rs.subtotal = rs.service.price * num_nights
+                 total_price += rs.subtotal
+
+        reservation.total_price = total_price
+        db.session.commit()
+        
+        return reservation, None, None
+
+    @staticmethod
+    def update_status(reservation_id, data):
+        reservation = Reservation.query.get(reservation_id)
+        if not reservation:
+            return None, "Reserva no encontrada.", "RESERVATION_NOT_FOUND"
+        
+        new_status = data["status"]
+        if new_status not in ["in_progress", "completed", "cancelled"]:
+             return None, "Estado inválido.", "INVALID_STATUS"
+             
+        reservation.status = new_status
+        db.session.commit()
+        return reservation, None, None

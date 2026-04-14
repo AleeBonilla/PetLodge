@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Tu número de cédula"
-                android:inputType="text"
+                android:inputType="number"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"

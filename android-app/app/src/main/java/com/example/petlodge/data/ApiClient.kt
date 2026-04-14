@@ -9,7 +9,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "http://10.0.2.2:5000/api/v1/"
+    const val SERVER_IP = "10.0.2.2"
+    // Default: 10.0.2.2
+
+    const val BASE_URL = "http://$SERVER_IP:5000/api/v1/"
+    private const val STATIC_URL = "http://$SERVER_IP:5000"
+
+    fun getFullImageUrl(url: String?): String? {
+        if (url.isNullOrBlank()) return null
+        return if (url.startsWith("http")) url else "$STATIC_URL$url"
+    }
+
     private var appContext: Context? = null
     private val gson = GsonBuilder()
         .serializeNulls()

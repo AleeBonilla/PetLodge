@@ -8,12 +8,25 @@ import com.example.petlodge.data.dto.ApiResponse
 import com.example.petlodge.data.dto.PetRequest
 import com.example.petlodge.data.dto.PetResponse
 import com.example.petlodge.databinding.ActivityRegistrarMascotaBinding
+import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RegistrarMascotaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrarMascotaBinding
+    private var photoBase64String: String? = null
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { processImage(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +38,7 @@ class RegistrarMascotaActivity : AppCompatActivity() {
         }
 
         binding.btnSeleccionarImagen.setOnClickListener {
-            Toast.makeText(
-                this,
-                "La carga de imagen aún no está implementada.",
-                Toast.LENGTH_SHORT
-            ).show()
+            pickImageLauncher.launch("image/*")
         }
 
         binding.btnSave.setOnClickListener {
@@ -72,6 +81,9 @@ class RegistrarMascotaActivity : AppCompatActivity() {
                 rawHasMedicalConditions = binding.etCondicionesMedicasEstado.text.toString(),
                 hasMedicalConditions = hasMedicalConditions,
                 medicalConditionsNotes = medicalConditionsNotes,
+                veterinarianName = binding.etNombreVet.text.toString(),
+                veterinarianPhone = binding.etTelefonoVet.text.toString(),
+                careNotes = binding.etCuidadosEspeciales.text.toString(),
                 rawAge = binding.etEdad.text.toString()
             )
         ) {
@@ -91,7 +103,8 @@ class RegistrarMascotaActivity : AppCompatActivity() {
             medicalConditionsNotes = medicalConditionsNotes,
             veterinarianName = veterinarianName,
             veterinarianPhone = veterinarianPhone,
-            careNotes = careNotes
+            careNotes = careNotes,
+            photoBase64 = photoBase64String
         )
 
         setLoading(true)
@@ -148,7 +161,10 @@ class RegistrarMascotaActivity : AppCompatActivity() {
         rawHasMedicalConditions: String,
         hasMedicalConditions: Boolean?,
         medicalConditionsNotes: String?,
-        rawAge: String
+        rawAge: String,
+        veterinarianName: String,
+        veterinarianPhone : String,
+        careNotes: String
     ): Boolean {
         if (name.isBlank()) {
             binding.etNombre.error = "Ingresa el nombre."
@@ -165,22 +181,22 @@ class RegistrarMascotaActivity : AppCompatActivity() {
             return false
         }
 
-        if (rawAge.isNotBlank() && rawAge.toIntOrNull() == null) {
+        if (rawAge.isBlank() && rawAge.toIntOrNull() == null) {
             binding.etEdad.error = "Ingresa una edad válida."
             return false
         }
 
-        if (rawSex.isNotBlank() && sex == null) {
+        if (rawSex.isBlank() && sex == null) {
             binding.etSexo.error = "Usa macho o hembra."
             return false
         }
 
-        if (rawSize.isNotBlank() && size == null) {
+        if (rawSize.isBlank() && size == null) {
             binding.etTamano.error = "Usa pequeño, mediano o grande."
             return false
         }
 
-        if (rawVaccinated.isNotBlank() && vaccinated == null) {
+        if (rawVaccinated.isBlank() && vaccinated == null) {
             binding.etVacunacionEstado.error = "Usa sí o no."
             return false
         }
@@ -190,13 +206,23 @@ class RegistrarMascotaActivity : AppCompatActivity() {
             return false
         }
 
-        if (rawHasMedicalConditions.isNotBlank() && hasMedicalConditions == null) {
+        if (rawHasMedicalConditions.isBlank() && hasMedicalConditions == null) {
             binding.etCondicionesMedicasEstado.error = "Usa sí o no."
             return false
         }
 
         if (hasMedicalConditions == true && medicalConditionsNotes.isNullOrBlank()) {
             binding.etCondicionesMedicasDetalles.error = "Describe las condiciones médicas."
+            return false
+        }
+
+        if (veterinarianName.isBlank() && veterinarianPhone.isBlank()) {
+            binding.etNombreVet.error = "Llene los datos del veterinario."
+            return false
+        }
+
+        if (careNotes.isBlank()) {
+            binding.etCuidadosEspeciales.error = "Describe los cuidados especiales."
             return false
         }
 
@@ -246,6 +272,34 @@ class RegistrarMascotaActivity : AppCompatActivity() {
         "si", "sí", "s", "yes", "true" -> true
         "no", "n", "false" -> false
         else -> null
+    }
+
+    private fun processImage(uri: Uri) {
+        try {
+            val inputStream: InputStream? = contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            
+            // resize to max 800x800 for safety
+            val maxDim = 800
+            val scale = minOf(maxDim.toFloat() / bitmap.width, maxDim.toFloat() / bitmap.height)
+            val scaledBitmap = if (scale < 1f) {
+                Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true)
+            } else {
+                bitmap
+            }
+            
+            binding.ivPreviewImage.setImageBitmap(scaledBitmap)
+            binding.ivPreviewImage.visibility = View.VISIBLE
+            
+            val outputStream = ByteArrayOutputStream()
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
+            val byteArray = outputStream.toByteArray()
+            photoBase64String = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+            
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al procesar la imagen.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setLoading(isLoading: Boolean) {

@@ -9,7 +9,15 @@ class PetService:
 
     @staticmethod
     def create_pet(owner_id, data):
+        photo_base64 = data.pop("photo_base64", None)
         pet = Pet(owner_id=owner_id, **data)
+        
+        if photo_base64:
+            from app.utils.image_utils import save_base64_image
+            url = save_base64_image(photo_base64)
+            if url:
+                pet.photo_url = url
+                
         db.session.add(pet)
         db.session.commit()
         return pet
@@ -30,6 +38,13 @@ class PetService:
         pet = Pet.query.filter_by(id=pet_id, owner_id=owner_id, is_deleted=False).first()
         if not pet:
             return None, "Mascota no encontrada.", "PET_NOT_FOUND"
+
+        photo_base64 = data.pop("photo_base64", None)
+        if photo_base64:
+            from app.utils.image_utils import save_base64_image
+            url = save_base64_image(photo_base64)
+            if url:
+                pet.photo_url = url
 
         for key, value in data.items():
             setattr(pet, key, value)

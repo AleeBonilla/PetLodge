@@ -2,8 +2,16 @@ from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
-from app.schemas.pet_schema import PetCreateSchema, PetSchema, PetUpdateSchema
+from app.schemas.pet_schema import (
+    PetCreateSchema, 
+    PetSchema, 
+    PetUpdateSchema,
+    PetNoticeSchema
+)
 from app.services.pet_service import PetService
+from app.services.notification_service import NotificationService
+from app.models.user import User
+from app.models.pet import Pet
 from app.utils.helpers import error_response, success_response
 
 blp = Blueprint(
@@ -74,3 +82,27 @@ class PetDetail(MethodView):
             status = 404 if code == "PET_NOT_FOUND" else 409
             return error_response(err, code, status)
         return success_response(message="Mascota eliminada exitosamente.")
+
+
+@blp.route("/<int:pet_id>/notices")
+class PetNotice(MethodView):
+    @jwt_required()
+    @blp.arguments(PetNoticeSchema)
+    @blp.doc(summary="Enviar aviso sobre mascota", description="Avisa al dueño sobre el estado de su mascota")
+    def post(self, data, pet_id):
+        pet = Pet.query.get(pet_id)
+        if not pet or pet.is_deleted:
+            return error_response("Mascota no encontrada.", "PET_NOT_FOUND", 404)
+            
+        user = User.query.get(pet.owner_id)
+        NotificationService.send_notification(
+             user,
+             "pet_status_notice",
+             {
+                  "user_name": user.full_name,
+                  "pet_name": pet.name,
+                  "notice_message": data["notice_message"]
+             }
+        )
+        
+        return success_response(message="Notificación enviada exitosamente.")

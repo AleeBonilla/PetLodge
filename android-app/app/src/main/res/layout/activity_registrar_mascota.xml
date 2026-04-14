@@ -55,6 +55,16 @@
                 android:textColor="@color/text_dark"
                 android:layout_marginBottom="6dp" />
 
+            <ImageView
+                android:id="@+id/ivPreviewImage"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="12dp"
+                android:scaleType="centerCrop"
+                android:background="#E0E0E0"
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/btnSeleccionarImagen"
                 android:layout_width="match_parent"

@@ -106,7 +106,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.etNombre.requestFocus()
             return false
         }
-        if (idNumber.isBlank()) {
+        if (idNumber.isBlank() and (idNumber.length < 8)) {
             binding.etCedula.error = "La cédula es requerida."
             binding.etCedula.requestFocus()
             return false

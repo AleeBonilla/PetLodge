@@ -25,6 +25,8 @@ data class PetRequest(
     val veterinarianPhone: String? = null,
     @SerializedName("care_notes")
     val careNotes: String? = null,
+    @SerializedName("photo_base64")
+    val photoBase64: String? = null,
 )
 
 data class PetResponse(

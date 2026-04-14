@@ -2,7 +2,12 @@ from flask.views import MethodView
 from flask_smorest import Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from app.schemas.reservation_schema import ReservationSchema, ReservationCreateSchema
+from app.schemas.reservation_schema import (
+    ReservationSchema, 
+    ReservationCreateSchema, 
+    ReservationUpdateSchema, 
+    ReservationStatusUpdateSchema
+)
 from app.services.reservation_service import ReservationService
 from app.services.notification_service import NotificationService
 from app.models.user import User
@@ -84,4 +89,74 @@ class ReservationDetail(MethodView):
         return success_response(
             ReservationSchema().dump(reservation),
             "Reserva cancelada exitosamente.",
+        )
+
+    @jwt_required()
+    @blp.arguments(ReservationUpdateSchema)
+    @blp.doc(summary="Modificar reserva", description="Modifica las fechas, habitación y/o servicios de una reserva")
+    def put(self, data, reservation_id):
+        owner_id = int(get_jwt_identity())
+        reservation, err, code = ReservationService.update_reservation(reservation_id, owner_id, data)
+        if err:
+            status_map = {
+                 "RESERVATION_NOT_FOUND": 404,
+                 "CANNOT_MODIFY": 400,
+                 "INVALID_CHECK_IN": 400,
+                 "ROOM_NOT_FOUND": 404,
+                 "RESERVATION_CONFLICT": 409,
+                 "SERVICES_NOT_ALLOWED": 400,
+                 "SERVICE_NOT_FOUND": 404,
+            }
+            return error_response(err, code, status_map.get(code, 400))
+
+        # Send modification notification
+        user = User.query.get(owner_id)
+        NotificationService.send_notification(
+            user,
+            "reservation_modified",
+            {
+                "user_name": user.full_name,
+                "pet_name": reservation.pet.name,
+                "check_in_date": str(reservation.check_in_date),
+                "check_out_date": str(reservation.check_out_date),
+                "room_number": reservation.room.number,
+            },
+        )
+
+        return success_response(
+            ReservationSchema().dump(reservation),
+            "Reserva actualizada exitosamente.",
+        )
+
+
+@blp.route("/<int:reservation_id>/status")
+class ReservationStatusUpdate(MethodView):
+    @jwt_required()
+    @blp.arguments(ReservationStatusUpdateSchema)
+    @blp.doc(summary="Actualizar estado de reserva", description="Admins actualizarán el estado de la reserva (inicio/fin hospedaje)")
+    def patch(self, data, reservation_id):
+        # NOTE: Ideally this would check for admin role
+        reservation, err, code = ReservationService.update_status(reservation_id, data)
+        if err:
+             status = 404 if code == "RESERVATION_NOT_FOUND" else 400
+             return error_response(err, code, status)
+             
+        user = User.query.get(reservation.owner_id)
+        
+        if reservation.status == "in_progress":
+             NotificationService.send_notification(
+                  user,
+                  "lodging_started",
+                  {"user_name": user.full_name, "pet_name": reservation.pet.name}
+             )
+        elif reservation.status == "completed":
+             NotificationService.send_notification(
+                  user,
+                  "lodging_ended",
+                  {"user_name": user.full_name, "pet_name": reservation.pet.name}
+             )
+
+        return success_response(
+             ReservationSchema().dump(reservation),
+             "Estado de reserva actualizado exitosamente.",
         )

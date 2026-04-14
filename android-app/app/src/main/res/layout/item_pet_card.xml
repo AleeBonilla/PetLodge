@@ -17,9 +17,9 @@
 
         <ImageView
             android:id="@+id/ivPetIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_pet_placeholder"
             android:tint="@color/primary"
             android:contentDescription="Icono mascota" />
