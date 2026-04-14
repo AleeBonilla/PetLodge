@@ -53,6 +53,9 @@ class ReservationService:
         if service_ids and data["lodging_type"] != "special":
             return None, "Los servicios adicionales solo están disponibles para hospedaje especial.", "SERVICES_NOT_ALLOWED"
 
+        if len(service_ids) != len(set(service_ids)):
+            return None, "No se permiten servicios duplicados.", "DUPLICATE_SERVICES"
+
         # Calculate number of nights
         num_nights = (data["check_out_date"] - data["check_in_date"]).days
         total_price = room.price_per_night * num_nights
@@ -165,6 +168,9 @@ class ReservationService:
         if "service_ids" in data:
             if reservation.lodging_type != "special" and data["service_ids"]:
                 return None, "Los servicios adicionales solo están disponibles para hospedaje especial.", "SERVICES_NOT_ALLOWED"
+
+            if len(data["service_ids"]) != len(set(data["service_ids"])):
+                return None, "No se permiten servicios duplicados.", "DUPLICATE_SERVICES"
             
             # Clear existing services
             ReservationServiceModel.query.filter_by(reservation_id=reservation.id).delete()
