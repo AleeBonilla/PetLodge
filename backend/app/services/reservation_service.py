@@ -200,16 +200,28 @@ class ReservationService:
         
         return reservation, None, None
 
+    VALID_TRANSITIONS = {
+        "confirmed": ["in_progress", "cancelled"],
+        "in_progress": ["completed", "cancelled"],
+        "completed": [],
+        "cancelled": [],
+    }
+
     @staticmethod
     def update_status(reservation_id, data):
         reservation = Reservation.query.get(reservation_id)
         if not reservation:
             return None, "Reserva no encontrada.", "RESERVATION_NOT_FOUND"
-        
+
         new_status = data["status"]
-        if new_status not in ["in_progress", "completed", "cancelled"]:
-             return None, "Estado inválido.", "INVALID_STATUS"
-             
+        allowed = ReservationService.VALID_TRANSITIONS.get(reservation.status, [])
+        if new_status not in allowed:
+            return (
+                None,
+                f"No se puede cambiar de '{reservation.status}' a '{new_status}'.",
+                "INVALID_TRANSITION",
+            )
+
         reservation.status = new_status
         db.session.commit()
         return reservation, None, None
